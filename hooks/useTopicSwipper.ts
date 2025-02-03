@@ -3,13 +3,18 @@ import mockData from "../mockData.json"
 
 interface BaseTopic {
   prompt: string
-  children: BaseTopic[]
+  children?: BaseTopic[]  // Make children optional
 }
 
-interface Topic extends BaseTopic {
+interface Topic extends Omit<BaseTopic, 'children'> {
   id: string
   parentId: string | null
-  children: Topic[]  // Override children type for Topic
+  children: Topic[]  // But make it required in final Topic
+}
+
+const defaultTopic: BaseTopic = {
+  prompt: "Movies",
+  children: []
 }
 
 export function useTopicSwipper() {
@@ -18,11 +23,19 @@ export function useTopicSwipper() {
       ...topic,
       id: parentId ? `${parentId}-${index}` : `${index}`,
       parentId,
-      children: processTree(topic.children, parentId ? `${parentId}-${index}` : `${index}`)
+      children: processTree(topic.children || [], parentId ? `${parentId}-${index}` : `${index}`)
     }))
   }
 
-  const [topicTree, setTopicTree] = useState<Topic[]>(() => processTree(mockData))
+  const [topicTree, setTopicTree] = useState<Topic[]>(() => {
+    try {
+      return processTree(mockData || [defaultTopic])
+    } catch (error) {
+      console.error('Error processing topic tree:', error)
+      return processTree([defaultTopic])
+    }
+  })
+
   const [currentTopic, setCurrentTopic] = useState<Topic>(topicTree[0])
   const [history, setHistory] = useState<string[]>([topicTree[0].id])
 
@@ -43,8 +56,20 @@ export function useTopicSwipper() {
   const handleSwipe = useCallback(
     (direction: "left" | "right" | "switch", topicId?: string) => {
       if (direction === "switch" && topicId) {
-        // Switch directly to the specified topic
-        setCurrentTopic(topicTree.find(topic => topic.id === topicId) || topicTree[0])
+        // Find the topic in the entire tree
+        const findTopic = (topics: Topic[]): Topic | null => {
+          for (const topic of topics) {
+            if (topic.id === topicId) return topic
+            const found = findTopic(topic.children)
+            if (found) return found
+          }
+          return null
+        }
+        
+        const foundTopic = findTopic(topicTree)
+        if (foundTopic) {
+          setCurrentTopic(foundTopic)
+        }
         return
       }
       if (direction === "left") {
@@ -66,7 +91,7 @@ export function useTopicSwipper() {
         setCurrentTopic(currentTopic.children[0])
       }
     },
-    [currentTopic, findTopicById, isAtTop, topicTree],
+    [currentTopic, findTopicById, isAtTop, topicTree]
   )
 
   const goBack = useCallback(() => {
@@ -82,34 +107,63 @@ export function useTopicSwipper() {
 
   const addTopics = useCallback(
     (parentId: string, newTopics: BaseTopic[]) => {
-      setTopicTree((prevTree) => {
+      console.log('Adding topics:', { parentId, newTopics }) // Debug log
+
+      // First process the new topics to add IDs
+      const processedNewTopics = processTree(newTopics.map(topic => ({
+        prompt: topic.prompt,
+        children: []
+      })), parentId)
+
+      console.log('Processed topics:', processedNewTopics) // Debug log
+
+      if (processedNewTopics.length === 0) {
+        console.warn('No topics to add') // Debug log
+        return
+      }
+
+      const firstNewTopic = processedNewTopics[0]
+      console.log('First new topic:', firstNewTopic) // Debug log
+
+      // Update the tree first
+      setTopicTree(prevTree => {
+        // If parentId is 'root', add to top level
+        if (parentId === 'root') {
+          return [...prevTree, ...processedNewTopics]
+        }
+
         const updateTopics = (topics: Topic[]): Topic[] => {
           return topics.map(topic => {
             if (topic.id === parentId) {
-              const processedNewTopics = processTree(newTopics, parentId)
-              const updatedTopic = { 
-                ...topic, 
-                children: [...topic.children, ...processedNewTopics] 
+              const updatedTopic = {
+                ...topic,
+                children: [...topic.children, ...processedNewTopics]
               }
-              
-              if (processedNewTopics.length > 0) {
-                // Schedule state updates for next render
-                setTimeout(() => {
-                  setCurrentTopic(processedNewTopics[0])
-                  setHistory(prev => [...prev, parentId])
-                }, 0)
-              }
-              
+              console.log('Updated parent topic:', updatedTopic) // Debug log
               return updatedTopic
             }
-            return { ...topic, children: updateTopics(topic.children) }
+            return {
+              ...topic,
+              children: updateTopics(topic.children)
+            }
           })
         }
-        
-        return updateTopics(prevTree)
+
+        const newTree = updateTopics(prevTree)
+        console.log('New tree:', newTree) // Debug log
+        return newTree
+      })
+
+      // Then update current topic and history
+      console.log('Setting current topic to:', firstNewTopic) // Debug log
+      setCurrentTopic(firstNewTopic)
+      setHistory(prev => {
+        const newHistory = [...prev, parentId]
+        console.log('New history:', newHistory) // Debug log
+        return newHistory
       })
     },
-    [],  // Remove findTopicById from dependencies as it's not used
+    []
   )
 
   const getParentTopics = useCallback((topicId: string): Array<{ prompt: string, id: string }> => {

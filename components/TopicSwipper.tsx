@@ -12,8 +12,11 @@ import { cn } from "@/lib/utils"
 import { SwipeHelp } from "./SwipeHelp"
 import { AddTopicDialog } from "./AddTopicDialog"
 import { useRouter } from "next/navigation"
+import dynamic from 'next/dynamic'
 
-const isDebug = process.env.DEBUG === 'true'
+const DebugPanel = dynamic(() => import('./DebugPanel'), { ssr: false })
+
+const isDebug = process.env.NEXT_PUBLIC_DEBUG === 'true'
 
 export function TopicSwipper() {
   const router = useRouter()
@@ -60,9 +63,29 @@ export function TopicSwipper() {
     setIsGenerating(true)
     try {
       const parentTopics = getParentTopics(currentTopic.id)
-      const data = await generateTopics(currentTopic.prompt, currentTopic.id.toString(), parentTopics)
-      addTopics(currentTopic.id, data.children)
-      addDebugInfo(`Generated new topics for: ${currentTopic.prompt}`)
+      // Get the root topic if we have parent topics
+      const rootTopic = topicTree[0]
+      
+      // Create full path starting from root
+      const fullPath = [
+        // Include root topic if we're not already at root
+        ...(parentTopics.length === 0 ? [] : [{ prompt: rootTopic.prompt, id: rootTopic.id }]),
+        ...parentTopics,
+        { prompt: currentTopic.prompt, id: currentTopic.id }
+      ]
+
+      const data = await generateTopics(
+        currentTopic.prompt, 
+        currentTopic.id, 
+        fullPath
+      )
+      
+      if (data.children && data.children.length > 0) {
+        addTopics(currentTopic.id, data.children)
+        addDebugInfo(`Generated new topics for: ${currentTopic.prompt}`)
+      } else {
+        toast.error("No new topics generated")
+      }
     } catch (error) {
       console.error("Error generating topics:", error)
       addDebugInfo(`Error generating topics: ${error}`)
@@ -142,34 +165,14 @@ export function TopicSwipper() {
         onSwitchToTopic={handleSwitchToTopic}
       />
 
-      {isDebug && (
-        <>
-          <div className="w-full max-w-sm mb-4">
-            <Button 
-              onClick={handleDebugTopics}
-              variant="outline"
-              className="w-full"
-            >
-              <Bug className="mr-2 h-4 w-4" />
-              Log Topics Tree
-            </Button>
-          </div>
-          <div className="text-sm mb-2 w-full max-w-sm">
-            <p>Can go deeper: {canGoDeeper ? "Yes" : "No"}</p>
-            <p>Can go back: {canGoBack ? "Yes" : "No"}</p>
-            <p>At top: {isAtTop ? "Yes" : "No"}</p>
-            <p>At bottom: {isAtBottom ? "Yes" : "No"}</p>
-          </div>
-          <div className="mt-4 text-sm max-h-40 overflow-y-auto w-full max-w-sm bg-white rounded p-2">
-            <h3 className="font-bold">Debug Info:</h3>
-            {debugInfo.map((info, index) => (
-              <p key={index} className="text-xs">
-                {info}
-              </p>
-            ))}
-          </div>
-        </>
-      )}
+      {isDebug && <DebugPanel 
+        handleDebugTopics={handleDebugTopics}
+        canGoDeeper={canGoDeeper}
+        canGoBack={canGoBack}
+        isAtTop={isAtTop}
+        isAtBottom={isAtBottom}
+        debugInfo={debugInfo}
+      />}
     </div>
   )
 }
