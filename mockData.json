@@ -1,0 +1,376 @@
+[
+  {
+    "prompt": "Movies",
+    "children": [
+
+          {
+            "prompt": "Historical",
+            "children": [
+              {
+                "prompt": "World War II",
+                "children": [
+                  {
+                    "prompt": "Saving Private Ryan",
+                    "children": []
+                  },
+                  {
+                    "prompt": "Schindler's List",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "prompt": "Ancient Rome",
+                "children": [
+                  {
+                    "prompt": "Gladiator",
+                    "children": []
+                  },
+                  {
+                    "prompt": "Ben-Hur",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "prompt": "Medieval",
+                "children": [
+                  {
+                    "prompt": "Braveheart",
+                    "children": []
+                  },
+                  {
+                    "prompt": "Kingdom of Heaven",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "prompt": "Romance",
+            "children": [
+              {
+                "prompt": "Classic Romance",
+                "children": [
+                  {
+                    "prompt": "Pride and Prejudice",
+                    "children": []
+                  },
+                  {
+                    "prompt": "Casablanca",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "prompt": "Romantic Comedy",
+                "children": [
+                  {
+                    "prompt": "Notting Hill",
+                    "children": []
+                  },
+                  {
+                    "prompt": "10 Things I Hate About You",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+      {
+        "prompt": "Sci-Fi",
+        "children": [
+          {
+            "prompt": "Cyberpunk",
+            "children": [
+              {
+                "prompt": "Matrix",
+                "children": [
+                  {
+                    "prompt": "The Matrix (1999)",
+                    "children": []
+                  },
+                  {
+                    "prompt": "The Matrix Reloaded",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "prompt": "Blade Runner",
+                "children": [
+                  {
+                    "prompt": "Blade Runner (1982)",
+                    "children": []
+                  },
+                  {
+                    "prompt": "Blade Runner 2049",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "prompt": "Space Opera",
+            "children": [
+              {
+                "prompt": "Star Wars",
+                "children": [
+                  {
+                    "prompt": "Original Trilogy",
+                    "children": [
+                      {
+                        "prompt": "A New Hope",
+                        "children": []
+                      },
+                      {
+                        "prompt": "The Empire Strikes Back",
+                        "children": []
+                      },
+                      {
+                        "prompt": "Return of the Jedi",
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "prompt": "Prequel Trilogy",
+                    "children": [
+                      {
+                        "prompt": "The Phantom Menace",
+                        "children": []
+                      },
+                      {
+                        "prompt": "Attack of the Clones",
+                        "children": []
+                      },
+                      {
+                        "prompt": "Revenge of the Sith",
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "prompt": "Star Trek",
+                "children": [
+                  {
+                    "prompt": "Star Trek (2009)",
+                    "children": []
+                  },
+                  {
+                    "prompt": "Star Trek: Wrath of Khan",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "prompt": "Comedy",
+        "children": [
+          {
+            "prompt": "Slapstick",
+            "children": [
+              {
+                "prompt": "The Naked Gun",
+                "children": []
+              },
+              {
+                "prompt": "Dumb and Dumber",
+                "children": []
+              }
+            ]
+          },
+          {
+            "prompt": "Dark Comedy",
+            "children": [
+              {
+                "prompt": "Fargo",
+                "children": []
+              },
+              {
+                "prompt": "Dr. Strangelove",
+                "children": []
+              }
+            ]
+          },
+          {
+            "prompt": "Parody",
+            "children": [
+              {
+                "prompt": "Spaceballs",
+                "children": []
+              },
+              {
+                "prompt": "Monty Python and the Holy Grail",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "prompt": "Science & Technology",
+    "children": [
+      {
+        "prompt": "Physics",
+        "children": [
+          {
+            "prompt": "Quantum Mechanics",
+            "children": []
+          },
+          {
+            "prompt": "Relativity",
+            "children": []
+          }
+        ]
+      },
+      {
+        "prompt": "Computer Science",
+        "children": [
+          {
+            "prompt": "Artificial Intelligence",
+            "children": []
+          },
+          {
+            "prompt": "Web Development",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "prompt": "History & Civilizations",
+    "children": [
+      {
+        "prompt": "Ancient Civilizations",
+        "children": [
+          {
+            "prompt": "Egypt",
+            "children": []
+          },
+          {
+            "prompt": "Greece",
+            "children": []
+          }
+        ]
+      },
+      {
+        "prompt": "Modern History",
+        "children": [
+          {
+            "prompt": "Industrial Revolution",
+            "children": []
+          },
+          {
+            "prompt": "World Wars",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "prompt": "Art & Creativity",
+    "children": [
+      {
+        "prompt": "Visual Arts",
+        "children": [
+          {
+            "prompt": "Painting",
+            "children": []
+          },
+          {
+            "prompt": "Photography",
+            "children": []
+          }
+        ]
+      },
+      {
+        "prompt": "Music",
+        "children": [
+          {
+            "prompt": "Classical",
+            "children": []
+          },
+          {
+            "prompt": "Contemporary",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "prompt": "Philosophy & Ideas",
+    "children": [
+      {
+        "prompt": "Eastern Philosophy",
+        "children": [
+          {
+            "prompt": "Buddhism",
+            "children": []
+          },
+          {
+            "prompt": "Taoism",
+            "children": []
+          }
+        ]
+      },
+      {
+        "prompt": "Western Philosophy",
+        "children": [
+          {
+            "prompt": "Ancient Greek",
+            "children": []
+          },
+          {
+            "prompt": "Modern Philosophy",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "prompt": "Nature & Environment",
+    "children": [
+      {
+        "prompt": "Ecosystems",
+        "children": [
+          {
+            "prompt": "Rainforests",
+            "children": []
+          },
+          {
+            "prompt": "Oceans",
+            "children": []
+          }
+        ]
+      },
+      {
+        "prompt": "Climate",
+        "children": [
+          {
+            "prompt": "Weather Patterns",
+            "children": []
+          },
+          {
+            "prompt": "Climate Change",
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]
+
