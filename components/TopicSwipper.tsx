@@ -11,10 +11,12 @@ import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 import { SwipeHelp } from "./SwipeHelp"
 import { AddTopicDialog } from "./AddTopicDialog"
+import { useRouter } from "next/navigation"
 
 const isDebug = process.env.DEBUG === 'true'
 
 export function TopicSwipper() {
+  const router = useRouter()
   const { currentTopic, handleSwipe, goBack, canGoDeeper, canGoBack, isAtTop, isAtBottom, addTopics, getAllTopics, getParentTopics, topicTree } = useTopicSwipper()
   const [debugInfo, setDebugInfo] = useState<string[]>([])
   const [isGenerating, setIsGenerating] = useState(false)
@@ -40,8 +42,8 @@ export function TopicSwipper() {
     ]
     
     const encodedTopics = encodeURIComponent(JSON.stringify(fullPath))
-    window.location.href = `/article?topics=${encodedTopics}`
-  }, [currentTopic, getParentTopics, topicTree])
+    router.push(`/article?topics=${encodedTopics}`)
+  }, [currentTopic, getParentTopics, topicTree, router])
 
   useEffect(() => {
     if (isAtTop) {
